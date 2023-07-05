@@ -1,5 +1,5 @@
 import { Text, TextInput, View } from "react-native";
-import { questions } from "./__fixtures__/questions";
+import { questions } from "../__fixtures__/questions";
 import { StyleSheet } from "react-native";
 
 export default function Exercise() {
@@ -8,7 +8,7 @@ export default function Exercise() {
   return (
     <View style={S.container}>
       <Text>{question.content}</Text>
-      <TextInput />
+      <TextInput style={S.input} keyboardType="default" placeholder="정답" />
     </View>
   );
 }
@@ -16,14 +16,17 @@ export default function Exercise() {
 const S = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
-    padding: 20,
+    justifyContent: "center",
+    gap: 20,
+    paddingHorizontal: 40,
+    paddingTop: 0,
+    paddingBottom: 20,
   },
-  answerInput: {
+  input: {
+    height: 40,
+    margin: 12,
     borderWidth: 1,
-    borderColor: "black",
-    borderRadius: 5,
     padding: 10,
-    flex: 1,
+    width: "100%",
   },
 });
