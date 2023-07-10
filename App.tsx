@@ -1,4 +1,3 @@
-import { NativeBaseProvider } from "native-base";
 import { StyleSheet } from "react-native";
 import Exercise from "./features/Exercise";
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -7,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
+import Toast from "react-native-toast-message";
 
 const Drawer = createDrawerNavigator();
 
@@ -62,7 +62,7 @@ export default function App() {
   };
 
   return (
-    <NativeBaseProvider>
+    <>
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Exercise">
           <Drawer.Screen
@@ -83,8 +83,9 @@ export default function App() {
             }}
           />
         </Drawer.Navigator>
+        <Toast />
       </NavigationContainer>
-    </NativeBaseProvider>
+    </>
   );
 }
 

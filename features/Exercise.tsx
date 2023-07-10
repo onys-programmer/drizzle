@@ -1,8 +1,17 @@
-import { Text, TextInput, View } from "react-native";
+import {
+  Animated,
+  Text,
+  TextInput,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import { questions } from "../__fixtures__/questions";
 import { StyleSheet } from "react-native";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import SubmitButton from "../components/atoms/SubmitButton";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
+import * as Haptics from "expo-haptics";
+import { Keyboard } from "react-native";
 
 export default function Exercise() {
   const { content, answer } = questions[0];
@@ -10,29 +19,79 @@ export default function Exercise() {
   const [answerInput, setAnswerInput] = useState("");
 
   const onChangeUpdateAnswerInput = (e: any) => {
-    console.log(e.nativeEvent.text);
     setAnswerInput(e.nativeEvent.text);
   };
+  const anim = useRef(new Animated.Value(0));
+
+  const shake = useCallback(() => {
+    // makes the sequence loop
+    Animated.loop(
+      // runs the animation array in sequence
+      Animated.sequence([
+        // shift element to the left by 2 units
+        Animated.timing(anim.current, {
+          useNativeDriver: true,
+          toValue: -2,
+          duration: 50,
+        }),
+        // shift element to the right by 2 units
+        Animated.timing(anim.current, {
+          useNativeDriver: true,
+          toValue: 2,
+          duration: 50,
+        }),
+        // bring the element back to its original position
+        Animated.timing(anim.current, {
+          useNativeDriver: true,
+          toValue: 0,
+          duration: 50,
+        }),
+      ]),
+      // loops the above animation config 2 times
+      { iterations: 2 }
+    ).start();
+  }, []);
 
   const onSubmitAnswer = () => {
     if (answerInput === answer) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       alert("정답입니다!");
+    } else {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
+      shake();
+      showToast();
     }
   };
 
+  const showToast = () => {
+    Toast.show({
+      type: "error",
+      text1: "오답입니다.",
+      position: "bottom",
+    });
+  };
+
   return (
-    <View style={S.container}>
-      <Text>{content}</Text>
-      <View style={S.answerRow}>
-        <TextInput
-          style={S.input}
-          keyboardType="default"
-          placeholder="정답"
-          onChange={(e) => onChangeUpdateAnswerInput(e)}
-        />
-        <SubmitButton onPress={onSubmitAnswer} title="제출" />
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+      accessible={false}
+    >
+      <View style={S.container}>
+        <Text>{content}</Text>
+        <Animated.View style={{ transform: [{ translateX: anim.current }] }}>
+          <View style={S.answerRow}>
+            <TextInput
+              style={S.input}
+              placeholder="정답"
+              onChange={(e) => onChangeUpdateAnswerInput(e)}
+            />
+            <SubmitButton onPress={onSubmitAnswer} title="제출" />
+          </View>
+        </Animated.View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
