@@ -118,6 +118,7 @@ const S = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 8,
     borderColor: "#E2E2E2",
+    backgroundColor: "#ffffff",
     padding: 10,
     flex: 1,
   },

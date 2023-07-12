@@ -49,7 +49,7 @@ export type Question = {
   content: string;
   answer: string;
   importance: importanceDegree;
-  category: Category;
+  subject: SubjectName;
 };
 
 export type ExerciseStatus = "inProgress" | "completed";
