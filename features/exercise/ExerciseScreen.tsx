@@ -1,3 +1,4 @@
+import { AnswerStatus, Question } from "../../constants/types";
 import {
   Animated,
   Text,
@@ -5,16 +6,20 @@ import {
   TouchableWithoutFeedback,
   View,
 } from "react-native";
-import { questions } from "../__fixtures__/questions";
 import { StyleSheet } from "react-native";
 import { useCallback, useRef, useState } from "react";
-import SubmitButton from "../components/atoms/SubmitButton";
+import SubmitButton from "../../components/atoms/SubmitButton";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import * as Haptics from "expo-haptics";
 import { Keyboard } from "react-native";
 
-export default function Exercise() {
-  const { content, answer } = questions[0];
+interface Props {
+  question: Question;
+  onSubmit: (answer: string) => void;
+}
+
+export default function ExerciseScreen({ question, onSubmit }: Props) {
+  const { content, answer } = question;
 
   const [answerInput, setAnswerInput] = useState("");
 
@@ -55,18 +60,21 @@ export default function Exercise() {
   const onSubmitAnswer = () => {
     if (answerInput === answer) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      alert("정답입니다!");
+      showToast("correct");
     } else {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       shake();
-      showToast();
+      showToast("wrong");
     }
+    onSubmit(answerInput);
   };
 
-  const showToast = () => {
+  const showToast = (answerStatus: AnswerStatus) => {
+    const type = answerStatus === "correct" ? "success" : "error";
+    const text1 = answerStatus === "correct" ? "정답입니다." : "오답입니다.";
     Toast.show({
-      type: "error",
-      text1: "오답입니다.",
+      type,
+      text1,
       position: "bottom",
     });
   };

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import Exercise from "./features/Exercise";
+import Exercise from "./features/exercise/Exercise";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import Settings from "./features/settings/Settings";
 import { NavigationContainer } from "@react-navigation/native";
