@@ -1,4 +1,8 @@
-import { AnswerStatus, Question } from "../../constants/types";
+import {
+  AnswerStatus,
+  Question,
+  subjectNameKorean,
+} from "../../constants/types";
 import {
   Animated,
   Text,
@@ -19,7 +23,7 @@ interface Props {
 }
 
 export default function ExerciseScreen({ question, onSubmit }: Props) {
-  const { content, answer } = question;
+  const { content, answer, subject, description } = question;
 
   const [answerInput, setAnswerInput] = useState("");
 
@@ -87,6 +91,11 @@ export default function ExerciseScreen({ question, onSubmit }: Props) {
       accessible={false}
     >
       <View style={S.container}>
+        <View style={S.descriptionContainer}>
+          <Text style={S.description}>
+            {subjectNameKorean[subject]}: {description}
+          </Text>
+        </View>
         <Text>{content}</Text>
         <Animated.View style={{ transform: [{ translateX: anim.current }] }}>
           <View style={S.answerRow}>
@@ -121,6 +130,17 @@ const S = StyleSheet.create({
     backgroundColor: "#ffffff",
     padding: 10,
     flex: 1,
+  },
+  descriptionContainer: {
+    position: "absolute",
+    right: 25,
+    top: 20,
+  },
+  description: {
+    textAlign: "right",
+    fontSize: 12,
+    color: "#666",
+    marginBottom: 10,
   },
   answerRow: {
     flexDirection: "row",

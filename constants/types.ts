@@ -55,3 +55,17 @@ export type Question = {
 export type ExerciseStatus = "inProgress" | "completed";
 
 export type AnswerStatus = "correct" | "wrong" | null;
+
+export const subjectNameKorean: Record<SubjectName, string> = {
+  general: "총론",
+  korean: "국어",
+  mathematics: "수학",
+  socialStudies: "사회",
+  science: "과학",
+  english: "영어",
+  music: "음악",
+  art: "미술",
+  physicalEducation: "체육",
+  ethics: "도덕",
+  practicalArts: "실과",
+};
