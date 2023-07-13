@@ -32,7 +32,7 @@ export default function SupportScreen() {
 
       <Text style={S.text}>가랑비는 당신의 합격을 기원합니다.</Text>
 
-      <Text style={S.versionText}>버전 0.0.1 (베타 테스트)</Text>
+      <Text style={S.versionText}>버전 1.0.0 (베타 테스트)</Text>
     </View>
   );
 }
