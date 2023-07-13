@@ -1,7 +1,8 @@
 import { StyleSheet } from "react-native";
-import Exercise from "./features/exercise/Exercise";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import Settings from "./features/settings/Settings";
+import Exercise from "./features/exercise/Exercise";
+import Support from "./features/support/SupportScreen";
+// import Settings from "./features/settings/Settings";
 import { NavigationContainer } from "@react-navigation/native";
 import * as Font from "expo-font";
 import { useEffect, useState } from "react";
@@ -74,11 +75,19 @@ export default function App() {
               title: "연습 화면",
             }}
           />
-          <Drawer.Screen
+          {/* <Drawer.Screen
             name="Settings"
             component={Settings}
             options={{
               title: "설정",
+              ...headerTitleStyle,
+            }}
+          /> */}
+          <Drawer.Screen
+            name="Support"
+            component={Support}
+            options={{
+              title: "고객지원",
               ...headerTitleStyle,
             }}
           />
